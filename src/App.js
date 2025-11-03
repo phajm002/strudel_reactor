@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StrudelMirror } from '@strudel/codemirror';
 import { evalScope } from '@strudel/core';
 import { drawPianoroll } from '@strudel/draw';
@@ -13,6 +13,7 @@ import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 import DJControls from './components/DJControls';
 import PlayButtons from './components/PlayButtons';
 import ProcButtons from './components/ProcButtons';
+import PreprocessTextArea from './components/PreprocessTextArea';
 
 let globalEditor = null;
 
@@ -20,54 +21,64 @@ const handleD3Data = (event) => {
     console.log(event.detail);
 };
 
-export function SetupButtons() {
+//export function SetupButtons() {
 
-    document.getElementById('play').addEventListener('click', () => globalEditor.evaluate());
-    document.getElementById('stop').addEventListener('click', () => globalEditor.stop());
-    document.getElementById('process').addEventListener('click', () => {
-        Proc()
-    }
-    )
-    document.getElementById('process_play').addEventListener('click', () => {
-        if (globalEditor != null) {
-            Proc()
-            globalEditor.evaluate()
-        }
-    }
-    )
-}
+//    document.getElementById('play').addEventListener('click', () => globalEditor.evaluate());
+//    document.getElementById('stop').addEventListener('click', () => globalEditor.stop());
+//    document.getElementById('process').addEventListener('click', () => {
+//        Proc()
+//    }
+//    )
+//    document.getElementById('process_play').addEventListener('click', () => {
+//        if (globalEditor != null) {
+//            Proc()
+//            globalEditor.evaluate()
+//        }
+//    }
+//    )
+//}
 
 
 
-export function ProcAndPlay() {
-    if (globalEditor != null && globalEditor.repl.state.started == true) {
-        console.log(globalEditor)
-        Proc()
-        globalEditor.evaluate();
-    }
-}
+//export function ProcAndPlay() {
+//    if (globalEditor != null && globalEditor.repl.state.started == true) {
+//        console.log(globalEditor)
+//        Proc()
+//        globalEditor.evaluate();
+//    }
+//}
 
-export function Proc() {
+//export function Proc() {
 
-    let proc_text = document.getElementById('proc').value
-    let proc_text_replaced = proc_text.replaceAll('<p1_Radio>', ProcessText);
-    ProcessText(proc_text);
-    globalEditor.setCode(proc_text_replaced)
-}
+//    let proc_text = document.getElementById('proc').value
+//    let proc_text_replaced = proc_text.replaceAll('<p1_Radio>', ProcessText);
+//    ProcessText(proc_text);
+//    globalEditor.setCode(proc_text_replaced)
+//}
 
-export function ProcessText(match, ...args) {
+//export function ProcessText(match, ...args) {
 
-    let replace = ""
-    if (document.getElementById('flexRadioDefault2').checked) {
-        replace = "_"
-    }
+//    let replace = ""
+//    //if (document.getElementById('flexRadioDefault2').checked) {
+//    //    replace = "_"
+//    //}
 
-    return replace
-}
+//    return replace
+//}
 
 export default function StrudelDemo() {
 
-const hasRun = useRef(false);
+    const hasRun = useRef(false);
+
+    const handlePlay = () => {
+        globalEditor.evaluate()
+    }
+
+    const handleStop = () => {
+        globalEditor.stop()
+    }
+
+    const [songText, setSongText] = useState(stranger_tune)
 
 useEffect(() => {
 
@@ -103,11 +114,12 @@ useEffect(() => {
             });
             
         document.getElementById('proc').value = stranger_tune
-        SetupButtons()
-        Proc()
+        //SetupButtons()
+        //Proc()
     }
 
-}, []);
+    globalEditor.setCode(songText);
+}, [songText]);
 
 
 return (
@@ -118,14 +130,14 @@ return (
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
-                        <textarea className="form-control" rows="15" id="proc" ></textarea>
+                        <PreprocessTextArea defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
                     </div>
                     <div className="col-md-4">
                         <nav>
                             <ProcButtons />
+
                             <br />
-                            <PlayButtons />
+                            <PlayButtons onPlay={handlePlay} onStop={handleStop} />
                             
                         </nav>
                     </div>

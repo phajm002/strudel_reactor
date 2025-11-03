@@ -39,6 +39,11 @@ const arpeggiator2 = [
 const pattern = 0
 const bass = 0
 
+xylohpone:
+n("0 [2 4] <3 5> [~ <4 1>]".add("<0 [0,2,4]>"))
+.scale("C5:minor").release(.5)
+.sound("gm_xylophone").room(.5)
+
 bassline:
 note(pick(basslines, bass))
 .sound("supersaw")
@@ -98,3 +103,14 @@ stack(
 // all(x => x.log())
 
 // @version 1.2`;
+
+
+export const another_medium_tune = `setcps(60) 
+
+main_beat:
+n("0 [4 <3 2>] <2 3> [~ 1]"
+.off(1 / 16, x => x.add(4))
+.off(1/8, x=>x.add(7))
+).scale("<C5:minor Db5:mixolydian>/2")
+.s("triangle").room(.5).dec(.1)
+`;
