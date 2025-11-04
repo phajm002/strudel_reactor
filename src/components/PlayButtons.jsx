@@ -1,9 +1,18 @@
 function PlayButtons({ onPlay, onStop }) {
+
+    const textAreaStyling = {
+        color: "black",
+        backgroundColor: "lightgray",
+        borderColor: "white",
+        padding: "10px",
+        fontFamily: "Arial"
+    }
+
     return (
         <>
             <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button id="play" className="btn btn-outline-primary" onClick={onPlay}>Play</button>
-                <button id="stop" className="btn btn-outline-primary" onClick={onStop}>Stop</button>
+                <button id="play" style={textAreaStyling} className="btn btn-outline" onClick={onPlay}>Play</button>
+                <button id="stop" style={textAreaStyling} className="btn btn-outline" onClick={onStop}>Stop</button>
             </div>
         </>
   );

@@ -4,6 +4,12 @@ import { useState } from "react";
 
 function DJ_Controls({ instrumentControl, volumeChange, cpmChange }) {
 
+    const textAreaStyling = {
+        color: "white",
+        fontFamily: "Arial",
+        padding: "5px",
+    }
+
     // The use state for the instrument control, default should be true
     // The main instruments to be controlled
     const [instrument, setInstrument] = useState({
@@ -34,26 +40,26 @@ function DJ_Controls({ instrumentControl, volumeChange, cpmChange }) {
             <input type="range" className="form-range" min="0" max="1" step="0.01" id="range3" />
 
             <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="ma1" />
-                <label className="form-check-label" htmlFor="ma1">
+                <input style={textAreaStyling} className="form-check-input" type="checkbox" value="" id="ma1" />
+                <label style={textAreaStyling}  className="form-check-label" htmlFor="ma1">
                         Main Arrpeggio
                 </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="d1" />
-                <label className="form-check-label" htmlFor="d1">
+                <label style={textAreaStyling} className="form-check-label" htmlFor="d1">
                         Drums
                 </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="d1" />
-                <label className="form-check-label" htmlFor="d1">
+                <label style={textAreaStyling} className="form-check-label" htmlFor="d1">
                     Drums 2
                 </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="d2"  />
-                <label className="form-check-label" htmlFor="d2">
+                <label style={textAreaStyling}  className="form-check-label" htmlFor="d2">
                         Bass
                 </label>
             </div>

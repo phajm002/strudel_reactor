@@ -127,41 +127,49 @@ export default function StrudelDemo() {
 
     return (
 
-        <div className="container">
-
+        <div className="app-container">
             <header className="header">
                 <h2>Strudel Demo</h2>
             </header>
 
             <main className="main">
-                <div className="graph-audio-visualizer">
+                <section className="graph-section">
                     <Graph />
-                </div>
+                    <canvas id="roll" className="pianoroll"></canvas>
+                </section>
 
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="controls">
-                            <DJControls />
-                            <ProcButtons />
-                            <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                <section className="controls-section">
+                    
+                    <ProcButtons />
+                    <PlayButtons onPlay={handlePlay} onStop={handleStop} />
+                    <div className="dropdown">
+                        <button className="btn btn-sceondary dropdown-toggle" type="button" id="instruments" data-bs-toggle="dropdown" aria-expanded="false">
+                            Toggle Instruments
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            
                         </div>
                     </div>
+                    <DJControls />
+                </section>
 
-                    <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <PreprocessTextArea defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
-                        </div>
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <div id="editor" />
-                            <div id="output" />
-                        </div>
-                        <canvas id="roll" className="pianoroll"></canvas>
-
+                <header className="editor-header">Preprocessing Area</header>
+                <section className="editor-section">
+                    
+                    <div className="text-editor">
+                    
+                        <PreprocessTextArea
+                            defaultValue={songText}
+                            onChange={(e) => setSongText(e.target.value)}
+                        />
                     </div>
-                </div>
-            </main >
-        </div >
+                    <div className="code-editor">
+                        <div id="editor" />
+                        <div id="output" />
+                    </div>
+                    
+                </section>
+            </main>
+        </div>
     );
-
-
 }
