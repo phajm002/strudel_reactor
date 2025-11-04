@@ -1,4 +1,28 @@
-function DJ_Controls() {
+
+import { useState } from "react";
+
+
+function DJ_Controls({ instrumentControl, volumeChange, cpmChange }) {
+
+    // The use state for the instrument control, default should be true
+    // The main instruments to be controlled
+    const [instrument, setInstrument] = useState({
+        main_arp: true,
+        drums: true,
+        drums2: true,
+        bass: true,
+        xylophone: true
+    })
+
+    const [volume, setVolume] = useState(0.5);
+
+    //const toggleInstrument = () => {
+    //    const 
+    //}
+
+
+
+
     return (
         <>
             <div className="input-group mb-3">
@@ -13,13 +37,13 @@ function DJ_Controls() {
                 <input className="form-check-input" type="checkbox" value="" id="ma1" />
                 <label className="form-check-label" htmlFor="ma1">
                         Main Arrpeggio
-                    </label>
+                </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="d1" />
                 <label className="form-check-label" htmlFor="d1">
                         Drums
-                    </label>
+                </label>
             </div>
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="d1" />
@@ -31,7 +55,7 @@ function DJ_Controls() {
                 <input className="form-check-input" type="checkbox" value="" id="d2"  />
                 <label className="form-check-label" htmlFor="d2">
                         Bass
-                    </label>
+                </label>
             </div>
       
 

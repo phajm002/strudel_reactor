@@ -10,10 +10,13 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 import { stranger_tune } from './tunes';
 import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 
+// Created components
 import DJControls from './components/DJControls';
 import PlayButtons from './components/PlayButtons';
 import ProcButtons from './components/ProcButtons';
 import PreprocessTextArea from './components/PreprocessTextArea';
+import AudioVisualizer from './components/AudioVisualizer';
+import Graph from './components/Graph';
 
 let globalEditor = null;
 
@@ -80,17 +83,17 @@ export default function StrudelDemo() {
 
     const [songText, setSongText] = useState(stranger_tune)
 
-useEffect(() => {
+    useEffect(() => {
 
-    if (!hasRun.current) {
-        document.addEventListener("d3Data", handleD3Data);
-        console_monkey_patch();
-        hasRun.current = true;
-        //Code copied from example: https://codeberg.org/uzu/strudel/src/branch/main/examples/codemirror-repl
+        if (!hasRun.current) {
+            document.addEventListener("d3Data", handleD3Data);
+            console_monkey_patch();
+            hasRun.current = true;
+            //Code copied from example: https://codeberg.org/uzu/strudel/src/branch/main/examples/codemirror-repl
             //init canvas
             const canvas = document.getElementById('roll');
-            canvas.width = canvas.width * 2;
-            canvas.height = canvas.height * 2;
+            canvas.width = canvas.width * 0.5;
+            canvas.height = canvas.height * 0.5;
             const drawContext = canvas.getContext('2d');
             const drawTime = [-2, 2]; // time window of drawn haps
             globalEditor = new StrudelMirror({
@@ -112,51 +115,53 @@ useEffect(() => {
                     await Promise.all([loadModules, registerSynthSounds(), registerSoundfonts()]);
                 },
             });
-            
-        document.getElementById('proc').value = stranger_tune
-        //SetupButtons()
-        //Proc()
-    }
 
-    globalEditor.setCode(songText);
-}, [songText]);
+            document.getElementById('proc').value = stranger_tune
+            //SetupButtons()
+            //Proc()
+        }
+
+        globalEditor.setCode(songText);
+    }, [songText]);
 
 
-return (
-    <div>
-        <h2>Strudel Demo</h2>
-        <main>
+    return (
 
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                        <PreprocessTextArea defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
-                    </div>
-                    <div className="col-md-4">
-                        <nav>
+        <div className="container">
+
+            <header className="header">
+                <h2>Strudel Demo</h2>
+            </header>
+
+            <main className="main">
+                <div className="graph-audio-visualizer">
+                    <Graph />
+                </div>
+
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="controls">
+                            <DJControls />
                             <ProcButtons />
-
-                            <br />
                             <PlayButtons onPlay={handlePlay} onStop={handleStop} />
-                            
-                        </nav>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                        <div id="editor" />
-                        <div id="output" />
-                    </div>
-                    <div className="col-md-4">
-                        <DJControls />
+
+                    <div className="row">
+                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                            <PreprocessTextArea defaultValue={songText} onChange={(e) => setSongText(e.target.value)} />
+                        </div>
+                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                            <div id="editor" />
+                            <div id="output" />
+                        </div>
+                        <canvas id="roll" className="pianoroll"></canvas>
 
                     </div>
                 </div>
-            </div>
-            <canvas id="roll"></canvas>
-        </main >
-    </div >
-);
+            </main >
+        </div >
+    );
 
 
 }

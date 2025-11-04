@@ -3,6 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+
+    <!-- Adding in the themes -->
+    <link href="light-theme.css" rel="stylesheet" id="theme-change" />
+
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -39,5 +46,22 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- Button to toggle between the themes -->
+    <!--<button class="btn-toggle">Toggle Dark Mode</button>-->
+    <!--<script>
+        const btn = document.querySelector(".btn-toggle");
+        const theme = document.querySelector("#theme-change");
+
+        btn.addEventListener("click", function() {
+            if (theme.getAttribute("href") === "light-theme.css") {
+                theme.href = "dark-theme.css";
+            } else {
+                theme.href = "light-theme.css";
+            }
+        });
+
+    </script>-->
+
   </body>
 </html>
