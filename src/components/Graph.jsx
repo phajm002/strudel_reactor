@@ -8,7 +8,7 @@ function Graph() {
 
           <div className="row">
               <svg 
-            class="border border-primary rounded p-2"></svg>
+            class="border rounded p-2"></svg>
           </div>
 
       </div>

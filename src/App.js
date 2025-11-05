@@ -13,10 +13,10 @@ import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 // Created components
 import DJControls from './components/DJControls';
 import PlayButtons from './components/PlayButtons';
-import ProcButtons from './components/ProcButtons';
 import PreprocessTextArea from './components/PreprocessTextArea';
-import AudioVisualizer from './components/AudioVisualizer';
+import AudioVisualizer from './utils/AudioVisualizer';
 import Graph from './components/Graph';
+import { Preprocess } from './utils/PreprocessLogic'
 
 let globalEditor = null;
 
@@ -24,65 +24,50 @@ const handleD3Data = (event) => {
     console.log(event.detail);
 };
 
-//export function SetupButtons() {
-
-//    document.getElementById('play').addEventListener('click', () => globalEditor.evaluate());
-//    document.getElementById('stop').addEventListener('click', () => globalEditor.stop());
-//    document.getElementById('process').addEventListener('click', () => {
-//        Proc()
-//    }
-//    )
-//    document.getElementById('process_play').addEventListener('click', () => {
-//        if (globalEditor != null) {
-//            Proc()
-//            globalEditor.evaluate()
-//        }
-//    }
-//    )
-//}
-
-
-
-//export function ProcAndPlay() {
-//    if (globalEditor != null && globalEditor.repl.state.started == true) {
-//        console.log(globalEditor)
-//        Proc()
-//        globalEditor.evaluate();
-//    }
-//}
-
-//export function Proc() {
-
-//    let proc_text = document.getElementById('proc').value
-//    let proc_text_replaced = proc_text.replaceAll('<p1_Radio>', ProcessText);
-//    ProcessText(proc_text);
-//    globalEditor.setCode(proc_text_replaced)
-//}
-
-//export function ProcessText(match, ...args) {
-
-//    let replace = ""
-//    //if (document.getElementById('flexRadioDefault2').checked) {
-//    //    replace = "_"
-//    //}
-
-//    return replace
-//}
-
 export default function StrudelDemo() {
 
     const hasRun = useRef(false);
 
+    // handles play button
     const handlePlay = () => {
+
+        let outputText = Preprocess({
+            inputText: procText,
+            volume: volume,
+            //cpm: cpm,
+            //instruments: instrument
+
+        });
+        globalEditor.setCode(outputText);
         globalEditor.evaluate()
     }
 
+    // handles stop button
     const handleStop = () => {
         globalEditor.stop()
     }
 
-    const [songText, setSongText] = useState(stranger_tune)
+    // sets the processing text
+    const [procText, setProcText] = useState(stranger_tune)
 
+    // use state for volume, instruments and cpm
+    const [volume, setVolume] = useState(1);
+    //const [cpm, setCpm] = useState(120);
+    //const [instrument, setInstrument] = useState("");
+
+
+    const [state, setState] = useState("stop");
+
+    // use effect
+    useEffect(() => {
+
+        if (state === "play") {
+            handlePlay();
+        }
+    }, [volume])
+
+
+    // use effect for the global editor
     useEffect(() => {
 
         if (!hasRun.current) {
@@ -121,12 +106,14 @@ export default function StrudelDemo() {
             //Proc()
         }
 
-        globalEditor.setCode(songText);
-    }, [songText]);
+        globalEditor.setCode(procText);
+    },
+    // automatically updates the processing text
+        [procText]);
 
 
+    // returns html info to update react page
     return (
-
         <div className="app-container">
             <header className="header">
                 <h2>Strudel Demo</h2>
@@ -134,33 +121,27 @@ export default function StrudelDemo() {
 
             <main className="main">
                 <section className="graph-section">
+                    
                     <Graph />
                     <canvas id="roll" className="pianoroll"></canvas>
+                    
                 </section>
 
-                <section className="controls-section">
-                    
-                    <ProcButtons />
-                    <PlayButtons onPlay={handlePlay} onStop={handleStop} />
-                    <div className="dropdown">
-                        <button className="btn btn-sceondary dropdown-toggle" type="button" id="instruments" data-bs-toggle="dropdown" aria-expanded="false">
-                            Toggle Instruments
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            
-                        </div>
-                    </div>
-                    <DJControls />
+                <section className="controls-section">                   
+                    <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
+                    <DJControls
+                        volumeChange={volume}
+                        onVolumeChange={(e) => setVolume(e.target.value)}
+                    />
                 </section>
 
                 <header className="editor-header">Preprocessing Area</header>
                 <section className="editor-section">
-                    
-                    <div className="text-editor">
-                    
+
+                    <div className="text-editor">  
                         <PreprocessTextArea
-                            defaultValue={songText}
-                            onChange={(e) => setSongText(e.target.value)}
+                            defaultValue={procText}
+                            onChange={(e) => setProcText(e.target.value)}
                         />
                     </div>
                     <div className="code-editor">

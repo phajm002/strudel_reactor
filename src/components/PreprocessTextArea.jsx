@@ -1,7 +1,7 @@
 function PreprocessTextArea({ defaultValue, onChange }) {
 
     const textAreaStyling = {
-        color: "purple",
+        color: "white",
         backgroundColor: "black",
         padding: "10px",
         fontFamily: "Arial"

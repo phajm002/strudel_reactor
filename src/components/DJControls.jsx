@@ -2,72 +2,74 @@
 import { useState } from "react";
 
 
-function DJ_Controls({ instrumentControl, volumeChange, cpmChange }) {
+function DJ_Controls({onVolumeChange }) {
 
-    const textAreaStyling = {
-        color: "white",
-        fontFamily: "Arial",
-        padding: "5px",
+    const [dropdown, setDropdown] = useState(true);
+
+    // toggles the dropdowns
+    const toggleDropdown = () => {
+        setDropdown(!dropdown);
     }
 
     // The use state for the instrument control, default should be true
     // The main instruments to be controlled
-    const [instrument, setInstrument] = useState({
-        main_arp: true,
-        drums: true,
-        drums2: true,
-        bass: true,
-        xylophone: true
-    })
-
-    const [volume, setVolume] = useState(0.5);
-
-    //const toggleInstrument = () => {
-    //    const 
-    //}
-
-
-
+    //const [instrument, setInstrument] = useState({
+    //    main_arp: true,
+    //    drums: true,
+    //    drums2: true,
+    //    bass: true,
+    //    xylophone: true
+    //})
 
     return (
         <>
             <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">set CPM</span>
-                <input type="text" id="cpm_text_input" className="form-control" placeholder="120" />
+                <button className="input-group-text" id="basic-addon1">set CPM</button>
+                <input type="text" id="cpm_text_input" className="form-control" placeholder="40" />
             </div>
 
-            <label for="volume_range" className="form-label">Volume</label>
-            <input type="range" className="form-range" min="0" max="1" step="0.01" id="range3" />
 
-            <div className="form-check">
-                <input style={textAreaStyling} className="form-check-input" type="checkbox" value="" id="ma1" />
-                <label style={textAreaStyling}  className="form-check-label" htmlFor="ma1">
-                        Main Arrpeggio
-                </label>
+            <label htmlFor="volume_range" style={{ color: "white" }} className="form-label">Volume</label>
+            <input type="range" className="form-range" min="0" max="2" step="0.01" onMouseUp={onVolumeChange} id="volume_range" />
+
+
+            <div className="dropdown">
+                <button className="btn dropdown-toggle" type="button"
+                    id="instruments"
+                    onClick={toggleDropdown}>
+                    Toggle Instruments
+                </button>
+
+
+                {dropdown && (
+                    <ul className="dropdown-menu show" style={{ display: "block", position: "absolute" }}>
+                        <li>
+                            <input type="checkbox" /* checked={instrument.main_arp} */  />
+                            <label>Main Arpeggio</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" /* checked={instrument.drums} */  />
+                            <label>Drums</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" /* checked={instrument.drums2} */  />
+                            <label>Drums 2</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" /* checked={instrument.bass} */  />
+                            <label>Bass</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" /* checked={instrument.xylophone} */  />
+                            <label>Xylophone</label>
+                        </li>
+                    </ul>
+                )}
             </div>
-            <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="d1" />
-                <label style={textAreaStyling} className="form-check-label" htmlFor="d1">
-                        Drums
-                </label>
-            </div>
-            <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="d1" />
-                <label style={textAreaStyling} className="form-check-label" htmlFor="d1">
-                    Drums 2
-                </label>
-            </div>
-            <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="d2"  />
-                <label style={textAreaStyling}  className="form-check-label" htmlFor="d2">
-                        Bass
-                </label>
-            </div>
-      
 
         </>
-        
-  );
+
+    );
 }
 
 export default DJ_Controls;

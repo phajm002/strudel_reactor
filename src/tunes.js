@@ -39,10 +39,7 @@ const arpeggiator2 = [
 const pattern = 0
 const bass = 0
 
-xylohpone:
-n("0 [2 4] <3 5> [~ <4 1>]".add("<0 [0,2,4]>"))
-.scale("C5:minor").release(.5)
-.sound("gm_xylophone").room(.5)
+
 
 bassline:
 note(pick(basslines, bass))
@@ -52,6 +49,7 @@ note(pick(basslines, bass))
 .lpf(700)
 .room(0.4)
 .postgain(pick(gain_patterns, pattern))
+.gain(1)
 
 
 main_arp: 
@@ -62,6 +60,7 @@ note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .room(0.6)
 .lpenv(3.3)
 .postgain(pick(gain_patterns, pattern))
+.gain(1)
 
 
 drums:
@@ -70,6 +69,7 @@ stack(
   .postgain(6)
   .pcurve(2)
   .pdec(1)
+  .gain(1)
   .struct(pick(drum_structure, pattern)),
 
   s("sh").struct("[x!3 ~!2 x!10 ~]")
@@ -78,7 +78,7 @@ stack(
   .speed(0.8).jux(rev).room(sine.range(0.1,0.4)).gain(0.6),
 
   s("{~ ~ rim ~ cp ~ rim cp ~!2 rim ~ cp ~ < rim ~ >!2}%8 *2")
-  .bank("[KorgDDM110, OberheimDmx]").speed(1.2)
+  .bank("[KorgDDM110, OberheimDmx]").speed(1.2).gain(1)
   .postgain(.25),
 )
 
@@ -105,12 +105,25 @@ stack(
 // @version 1.2`;
 
 
-export const another_medium_tune = `setcps(60) 
-
+export const zelda_theme = `
 main_beat:
-n("0 [4 <3 2>] <2 3> [~ 1]"
-.off(1 / 16, x => x.add(4))
-.off(1/8, x=>x.add(7))
-).scale("<C5:minor Db5:mixolydian>/2")
-.s("triangle").room(.5).dec(.1)
-`;
+note(<
+[e5[b4 c5] d5 [c5 b4]]
+[a4 [a4 c5] e5 [d5 c5]]
+[b4[~c5] d5 e5]
+[c5 a4 a4 ~]
+[[~d5][~f5] a5[g5 f5]]
+[e5[~c5] e5[d5 c5]]
+[b4[b4 c5] d5 e5]
+[c5 a4 a4 ~]
+,
+[[e2 e3] * 4]
+[[a2 a3] * 4]
+[[g#2 g#3] * 2[e2 e3]* 2]
+[a2 a3 a2 a3 a2 a3 b1 c2]
+[[d2 d3] * 4]
+[[c2 c3] * 4]
+[[b1 b2] * 2[e2 e3]* 2]
+[[a1 a2] * 4]
+>
+)`;

@@ -11,7 +11,7 @@ function PlayButtons({ onPlay, onStop }) {
     return (
         <>
             <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button id="play" style={textAreaStyling} className="btn btn-outline" onClick={onPlay}>Play</button>
+                <button id="play" style={textAreaStyling} className="btn btn-outline" onClick={onPlay}>Process & Play</button>
                 <button id="stop" style={textAreaStyling} className="btn btn-outline" onClick={onStop}>Stop</button>
             </div>
         </>

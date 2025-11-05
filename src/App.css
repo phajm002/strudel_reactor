@@ -1,5 +1,5 @@
 body {
-    background: radial-gradient(circle at 20% 20%, #1b1b1b, #0d0d0d);
+    background: radial-gradient(circle at 20% 20%, black, black);
     color: #eee;
     font-family: "Fira Code", monospace;
     margin: 0;
