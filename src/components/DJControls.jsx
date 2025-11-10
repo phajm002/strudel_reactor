@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 
-function DJ_Controls({onVolumeChange }) {
+function DJ_Controls({onVolumeChange, onCpmChange}) {
 
     const [dropdown, setDropdown] = useState(true);
 
@@ -25,11 +25,11 @@ function DJ_Controls({onVolumeChange }) {
         <>
             <div className="input-group mb-3">
                 <button className="input-group-text" id="basic-addon1">set CPM</button>
-                <input type="text" id="cpm_text_input" className="form-control" placeholder="40" />
+                <input type="text" id="cpm_text_input" className="form-control" onclick={onCpmChange} placeholder="40" />
             </div>
 
 
-            <label htmlFor="volume_range" style={{ color: "white" }} className="form-label">Volume</label>
+            <label htmlFor="volume_range" style={{ color: "white" }} className="form-label">Volume: </label>
             <input type="range" className="form-range" min="0" max="2" step="0.01" onMouseUp={onVolumeChange} id="volume_range" />
 
 
@@ -44,23 +44,23 @@ function DJ_Controls({onVolumeChange }) {
                 {dropdown && (
                     <ul className="dropdown-menu show" style={{ display: "block", position: "absolute" }}>
                         <li>
-                            <input type="checkbox" /* checked={instrument.main_arp} */  />
+                            <input type="checkbox"/>
                             <label>Main Arpeggio</label>
                         </li>
                         <li>
-                            <input type="checkbox" /* checked={instrument.drums} */  />
+                            <input type="checkbox"/>
                             <label>Drums</label>
                         </li>
                         <li>
-                            <input type="checkbox" /* checked={instrument.drums2} */  />
+                            <input type="checkbox"/>
                             <label>Drums 2</label>
                         </li>
                         <li>
-                            <input type="checkbox" /* checked={instrument.bass} */  />
+                            <input type="checkbox"/>
                             <label>Bass</label>
                         </li>
                         <li>
-                            <input type="checkbox" /* checked={instrument.xylophone} */  />
+                            <input type="checkbox"/>
                             <label>Xylophone</label>
                         </li>
                     </ul>

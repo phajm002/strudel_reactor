@@ -14,7 +14,6 @@ import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 import DJControls from './components/DJControls';
 import PlayButtons from './components/PlayButtons';
 import PreprocessTextArea from './components/PreprocessTextArea';
-import AudioVisualizer from './utils/AudioVisualizer';
 import Graph from './components/Graph';
 import { Preprocess } from './utils/PreprocessLogic'
 
@@ -34,7 +33,7 @@ export default function StrudelDemo() {
         let outputText = Preprocess({
             inputText: procText,
             volume: volume,
-            //cpm: cpm,
+            cpm: cpm,
             //instruments: instrument
 
         });
@@ -52,7 +51,7 @@ export default function StrudelDemo() {
 
     // use state for volume, instruments and cpm
     const [volume, setVolume] = useState(1);
-    //const [cpm, setCpm] = useState(120);
+    const [cpm, setCpm] = useState(120);
     //const [instrument, setInstrument] = useState("");
 
 
@@ -64,7 +63,7 @@ export default function StrudelDemo() {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume])
+    }, [volume, cpm])
 
 
     // use effect for the global editor
@@ -109,7 +108,7 @@ export default function StrudelDemo() {
         globalEditor.setCode(procText);
     },
     // automatically updates the processing text
-        [procText]);
+    [procText]);
 
 
     // returns html info to update react page
@@ -122,8 +121,17 @@ export default function StrudelDemo() {
             <main className="main">
                 <section className="graph-section">
                     
-                    <Graph />
-                    <canvas id="roll" className="pianoroll"></canvas>
+                    <div className="App container">
+                        <h1 style={{ color: "white" }}>
+                            Audio Visualizer
+                        </h1>
+
+                        <div className="row">
+                            <canvas id="roll" className="pianoroll"></canvas>
+                        </div>
+
+                    </div>
+                    
                     
                 </section>
 
@@ -132,6 +140,9 @@ export default function StrudelDemo() {
                     <DJControls
                         volumeChange={volume}
                         onVolumeChange={(e) => setVolume(e.target.value)}
+
+                        cpmChange={cpm}
+                        onCpmChange={(e) => setCpm(e.target.value)}
                     />
                 </section>
 
