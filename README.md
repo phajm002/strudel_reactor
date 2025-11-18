@@ -11,6 +11,10 @@ This app contains features that allow users to update music in real-time using f
 
 `3. Instrument control - Each instrument is listed with a checkbox, clicking on the checkbox will mute the instrument.`
 
+## Audio Visualizer
+
+<img width="1840" height="560" alt="Screenshot 2025-11-18 232002" src="https://github.com/user-attachments/assets/f123d459-cbd3-4de9-9eed-e4d180bb9fad" />
+
 ## Demonstration Video
 Link: https://youtu.be/0D8nO6gqtuM
 
