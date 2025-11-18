@@ -25,7 +25,7 @@ function DJ_Controls({onVolumeChange, onCpmChange}) {
         <>
             <div className="input-group mb-3">
                 <button className="input-group-text" id="basic-addon1">set CPM</button>
-                <input type="text" id="cpm_text_input" className="form-control" onclick={onCpmChange} placeholder="40" />
+                <input type="text" id="cpm_text_input" className="form-control" onChange={onCpmChange} placeholder="40" />
             </div>
 
 

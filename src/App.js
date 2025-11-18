@@ -23,7 +23,43 @@ const handleD3Data = (event) => {
     console.log(event.detail);
 };
 
+// load data and save data to retrieve json items
+const saveData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+const loadData = (key, defaultValue) => {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : defaultValue;
+};
+
 export default function StrudelDemo() {
+
+    // use state for json data
+    const [jsonData, setData] = useState({});
+
+    //const [instrument, setInstrument] = useState("");
+
+    const [state, setState] = useState("stop");
+
+    // sets the processing text
+    const [procText, setProcText] = useState(stranger_tune)
+
+    const savedData = loadData("appData", { volume: 1, cpm: 35 });
+
+    // use state for volume, instruments and cpm
+    const [volume, setVolume] = useState(savedData.volume);
+    const [cpm, setCpm] = useState(savedData.cpm);
+
+
+    // use effect loads the data from app data
+    useEffect(() => {
+        const save = loadData("appData", { volume: 1, cpm: 35 });
+        setVolume(save.volume);
+        setCpm(save.cpm);
+    }, []);
+
+    // saves the data 
+    useEffect(() => {
+        saveData("appData", { volume, cpm });
+    }, [volume, cpm]);
 
     const hasRun = useRef(false);
 
@@ -46,16 +82,6 @@ export default function StrudelDemo() {
         globalEditor.stop()
     }
 
-    // sets the processing text
-    const [procText, setProcText] = useState(stranger_tune)
-
-    // use state for volume, instruments and cpm
-    const [volume, setVolume] = useState(1);
-    const [cpm, setCpm] = useState(120);
-    //const [instrument, setInstrument] = useState("");
-
-
-    const [state, setState] = useState("stop");
 
     // use effect
     useEffect(() => {
@@ -139,10 +165,10 @@ export default function StrudelDemo() {
                     <PlayButtons onPlay={() => { setState("play"); handlePlay() }} onStop={() => { setState("stop"); handleStop() }} />
                     <DJControls
                         volumeChange={volume}
-                        onVolumeChange={(e) => setVolume(e.target.value)}
+                        onVolumeChange={(e) => setVolume(Number(e.target.value))}
 
                         cpmChange={cpm}
-                        onCpmChange={(e) => setCpm(e.target.value)}
+                        onCpmChange={(e) => setCpm(Number(e.target.value))}
                     />
                 </section>
 
