@@ -14,7 +14,7 @@ import console_monkey_patch, { getD3Data } from './console-monkey-patch';
 import DJControls from './components/DJControls';
 import PlayButtons from './components/PlayButtons';
 import PreprocessTextArea from './components/PreprocessTextArea';
-import Graph from './components/Graph';
+import AudioVisualizerGraph from './components/AudioVisualizerGraph';
 import { Preprocess } from './utils/PreprocessLogic'
 
 let globalEditor = null;
@@ -42,12 +42,12 @@ export default function StrudelDemo() {
     // sets the processing text
     const [procText, setProcText] = useState(stranger_tune)
 
-    const savedData = loadData("appData", { volume: 1, cpm: 35 });
+    const savedData = loadData("appData", { volume: 1, cpm: 20 });
 
     // use state for volume, instruments and cpm
     const [volume, setVolume] = useState(savedData.volume);
     const [cpm, setCpm] = useState(savedData.cpm);
-
+    const [mutedInstruments, setMutedInstruments] = useState([]);
 
     // use effect loads the data from app data
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function StrudelDemo() {
     // saves the data 
     useEffect(() => {
         saveData("appData", { volume, cpm });
-    }, [volume, cpm]);
+    }, [volume, cpm, mutedInstruments]);
 
     const hasRun = useRef(false);
 
@@ -70,7 +70,7 @@ export default function StrudelDemo() {
             inputText: procText,
             volume: volume,
             cpm: cpm,
-            //instruments: instrument
+            muteInstruments: mutedInstruments
 
         });
         globalEditor.setCode(outputText);
@@ -89,7 +89,7 @@ export default function StrudelDemo() {
         if (state === "play") {
             handlePlay();
         }
-    }, [volume, cpm])
+    }, [volume, cpm, mutedInstruments])
 
 
     // use effect for the global editor
@@ -153,7 +153,8 @@ export default function StrudelDemo() {
                         </h1>
 
                         <div className="row">
-                            <canvas id="roll" className="pianoroll"></canvas>
+                            <canvas id="roll" className="pianoroll" style={{ width: "100%", height: "200px", display: "block" }}></canvas>
+                            <AudioVisualizerGraph />
                         </div>
 
                     </div>
@@ -166,9 +167,10 @@ export default function StrudelDemo() {
                     <DJControls
                         volumeChange={volume}
                         onVolumeChange={(e) => setVolume(Number(e.target.value))}
-
                         cpmChange={cpm}
                         onCpmChange={(e) => setCpm(Number(e.target.value))}
+                        mutedInstruments={mutedInstruments}
+                        onMuteChange={(newMuted) => setMutedInstruments(newMuted)}
                     />
                 </section>
 

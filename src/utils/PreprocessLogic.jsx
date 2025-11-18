@@ -1,12 +1,10 @@
-export function Preprocess({ inputText, volume, cpm }) {
+export function Preprocess({ inputText, volume, cpm, muteInstruments = []}) {
 
    
     // Controls the preprocessing logic, regex reads the text editor
     let outputText = inputText;
 
     let regex = /[a-zA-Z0-9_]+:\s*\n[\s\S]+?\r?\n(?=[a-zA-Z0-9_]*[:\/])/gm;
-
-    let cpmRegex = /cpm\(([\d.]+)\)/g;
 
     let gainRegex = /(?<!post)gain\(([\d.]+)\)/g;
 
@@ -16,43 +14,26 @@ export function Preprocess({ inputText, volume, cpm }) {
     // matches is an array of text that has matching elements
     let matches = [];
 
-    while ((m = regex.exec(outputText)) !== null) {
-        if (m.index === regex.lastIndex)
-            regex.lastIndex++;
-            matches.push(m[0]);
+
+    if (muteInstruments.length > 0) {
+
+        const instrumentRegex = new RegExp(`^(${muteInstruments.join("|")})\\s*:`, "gm");
+        outputText = outputText.replace(instrumentRegex, "_$1:");
     }
 
-    // map the matches and then replace match where gain has a . with the captured data multiplied by the volume
-    let matchesMapped = matches.map(original => {
-        let modified = original;
-
-        modified = modified.replace(gainRegex, (_, captureGroup) =>
-            `gain(${captureGroup}*${volume})`
-    );
-        modified = modified.replace(cpmRegex, (_, captureGroup) =>
-            `cpm(${captureGroup}*${cpm})`
-        );
-
-        return modified;
-        }
-    );
-
-    // replace all the matched instances and replace them with the replaced volume matches
-    let processed = matches.reduce(
-        (text, original, i) => text
-            .replace(original, matchesMapped[i]),
-        outputText
+    // Replace gain() and cpm() globally
+    outputText = outputText.replace(/gain\(([\d.]+)\)/g, (_, num) =>
+        `gain(${parseFloat(num) * volume})`
     );
 
     outputText = outputText.replace(/cpm\(([\d.]+)\)/g, (_, num) =>
-        `cpm(${parseFloat(num) * cpm})`
+        `cpm(${cpm})`
     );
 
-
     // log to the console the replaced matches
-    console.log(processed);
+    console.log(outputText);
 
     // return matches
-    return processed;
+    return outputText;
 }
 
