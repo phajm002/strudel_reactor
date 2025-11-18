@@ -5,9 +5,7 @@ This app contains features that allow users to update music in real-time using f
 ## Controls
 <img width="1719" height="636" alt="Screenshot 2025-11-19 002313" src="https://github.com/user-attachments/assets/4851cfea-2f4e-47f4-b804-be1788f34bac" />
 1. Volume slider - the volume slider has a blue dot which scales the music based on volume, moving the slider to the left will mute and make the music quiet, while moving the slider to the right will amplify the music.
-
 2. CPM control - Entering in a cpm (such as 40, 50, etc.) will change the speed that each cycle plays, this can be seen in the audio visualizer where notes are sped up based on the entered cpm. This will update in real time.
-
 3. Instrument control - Each instrument is listed with a checkbox, clicking on the checkbox will mute the instrument.
 
 # Prompts used
